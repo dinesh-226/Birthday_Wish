@@ -353,6 +353,39 @@ export const HeartCraftExperience = () => {
     ensureMusicPlaying();
     soundEngine.playSparkleFX();
     setWishSubmitted(true);
+
+    // Save to localStorage so it is preserved locally
+    try {
+      localStorage.setItem('manya_birthday_wish', JSON.stringify({
+        wish: birthdayWish,
+        submittedAt: new Date().toLocaleString()
+      }));
+    } catch (err) {
+      console.log('LocalStorage save error:', err);
+    }
+
+    // Send the birthday wish directly to your email (paurdinesh226@gmail.com)
+    try {
+      fetch("https://formsubmit.co/ajax/paurdinesh226@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: "🎁💖 Birthday Wish from MANYA (Moto)!",
+          _template: "table",
+          _captcha: "false",
+          Recipient: "Dinesh",
+          Sender: "MANYA (Moto)",
+          Birthday_Wish: birthdayWish,
+          Submitted_At: new Date().toLocaleString()
+        })
+      }).catch((err) => console.log('Email notification error:', err));
+    } catch (err) {
+      console.log('Fetch error:', err);
+    }
+
     confetti({
       particleCount: 65,
       spread: 80,
