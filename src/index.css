@@ -1,0 +1,311 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pink-primary: #FF7096;
+    --pink-deep: #E83A6B;
+    --pink-light: #FFDFE8;
+    --pink-cream: #FFF5F7;
+    --text-burgundy: #701D38;
+    --card-shadow: rgba(232, 58, 107, 0.15);
+  }
+
+  body {
+    background: radial-gradient(circle at 50% 10%, #FFF5F8 0%, #FFE4EC 45%, #FFD2DF 100%);
+    color: #4A1525;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
+  }
+
+  /* Custom Smooth Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FFF0F4;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #FF9EBB;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FF4D8D;
+  }
+}
+
+/* Pacifico Font Typography (User Preferred) */
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+.font-serif-elegant {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Seamless 3D Floating Stage (No rigid white box) */
+.heartcraft-stage {
+  position: relative;
+  background: transparent;
+  filter: drop-shadow(0 15px 35px rgba(255, 112, 150, 0.18));
+}
+
+.heartcraft-glass-pill {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(255, 112, 150, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.heartcraft-btn-primary {
+  background: linear-gradient(135deg, #FF4D8D 0%, #E83A6B 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 25px rgba(232, 58, 107, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.heartcraft-btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(232, 58, 107, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.heartcraft-btn-primary:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.heartcraft-btn-secondary {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  color: #701D38;
+  border: 1.5px solid #FFBCD0;
+  box-shadow: 0 6px 18px rgba(255, 112, 150, 0.12);
+  transition: all 0.25s ease;
+}
+
+.heartcraft-btn-secondary:hover {
+  background: #FFFFFF;
+  border-color: #FF7096;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 112, 150, 0.2);
+}
+
+/* 3D Balloon Drop-in from Top (Rock Solid, All 4 Balloons Visible) */
+@keyframes balloonDropIn {
+  0% { transform: translateY(-110vh) scale(0.5) rotate(-10deg); opacity: 0; }
+  60% { transform: translateY(16px) scale(1.06) rotate(4deg); opacity: 1; }
+  80% { transform: translateY(-6px) scale(0.98) rotate(-2deg); opacity: 1; }
+  100% { transform: translateY(0px) scale(1) rotate(0deg); opacity: 1; }
+}
+
+.balloon-drop-1 {
+  animation: balloonDropIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.balloon-drop-2 {
+  animation: balloonDropIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.18s both;
+}
+
+.balloon-drop-3 {
+  animation: balloonDropIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.36s both;
+}
+
+.balloon-drop-4 {
+  animation: balloonDropIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.54s both;
+}
+
+/* 3D Balloon Bobbing Continuous */
+@keyframes floatBalloon3D {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg) scale(1.02); }
+}
+
+.animate-balloon-bob-1 { animation: floatBalloon3D 3.2s ease-in-out infinite; }
+.animate-balloon-bob-2 { animation: floatBalloon3D 3.8s ease-in-out infinite 0.4s; }
+.animate-balloon-bob-3 { animation: floatBalloon3D 3.5s ease-in-out infinite 0.8s; }
+.animate-balloon-bob-4 { animation: floatBalloon3D 4.1s ease-in-out infinite 1.2s; }
+
+/* 3D Sphere Balloon Styling & Specular Highlights */
+.balloon-3d {
+  position: relative;
+  box-shadow: inset -8px -8px 20px rgba(0, 0, 0, 0.22),
+              inset 8px 8px 16px rgba(255, 255, 255, 0.75),
+              0 15px 30px rgba(0, 0, 0, 0.14),
+              0 0 20px rgba(255, 112, 150, 0.3);
+}
+
+.balloon-highlight {
+  position: absolute;
+  top: 14%;
+  left: 18%;
+  width: 30%;
+  height: 38%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 80%);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
+/* 3D Cake & Candle Flame */
+@keyframes candleFlicker3D {
+  0%, 100% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 10px #FF9EBB) drop-shadow(0 -5px 15px #FFD700); }
+  50% { transform: scale(1.25, 1.35) rotate(3deg); filter: drop-shadow(0 0 16px #FF4D8D) drop-shadow(0 -8px 24px #FF9E00); }
+}
+
+.animate-candle-flame-3d {
+  animation: candleFlicker3D 0.55s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+/* 3D Interactive Knife Slicing Animation */
+@keyframes knifeSliceAnim {
+  0% { transform: translate(40px, -60px) rotate(45deg); opacity: 0; }
+  30% { transform: translate(20px, -20px) rotate(20deg); opacity: 1; }
+  60% { transform: translate(0px, 15px) rotate(-15deg); opacity: 1; }
+  85% { transform: translate(-10px, 35px) rotate(0deg); opacity: 1; }
+  100% { transform: translate(0px, 0px) rotate(0deg); opacity: 0; }
+}
+
+.animate-knife-slice {
+  animation: knifeSliceAnim 1.1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 3D Floating Cake Slice Eating Animation */
+@keyframes cakeFeedAnim {
+  0% { transform: scale(0.6) translateY(40px); opacity: 0; }
+  40% { transform: scale(1.15) translateY(-20px) rotate(-5deg); opacity: 1; }
+  70% { transform: scale(1.05) translateY(-10px) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) translateY(0px) rotate(0deg); opacity: 1; }
+}
+
+.animate-cake-feed {
+  animation: cakeFeedAnim 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3D Gift Box Wiggle */
+@keyframes giftWiggle3D {
+  0%, 100% { transform: rotate(0deg) scale(1) translateY(0); }
+  20% { transform: rotate(-8deg) scale(1.08) translateY(-6px); }
+  40% { transform: rotate(8deg) scale(1.08) translateY(-6px); }
+  60% { transform: rotate(-5deg) scale(1.04) translateY(-3px); }
+  80% { transform: rotate(4deg) scale(1.02) translateY(-1px); }
+}
+
+.animate-gift-wiggle-3d {
+  animation: giftWiggle3D 1.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform-origin: bottom center;
+}
+
+/* 3D Floating Hearts & Sparkles */
+@keyframes float3DParticle {
+  0% { transform: translateY(0) rotate(0deg) scale(0.7); opacity: 0; }
+  25% { opacity: 0.85; }
+  75% { opacity: 0.85; }
+  100% { transform: translateY(-160px) rotate(45deg) scale(1.2); opacity: 0; }
+}
+
+.floating-3d-particle {
+  animation: float3DParticle 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Moving Small Circular Photo Bubbles Rising from Bottom to Up */
+@keyframes risePhotoBubbleAnim {
+  0% {
+    transform: translateY(115vh) translateX(0px) scale(0.75) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(50vh) translateX(24px) scale(1.05) rotate(8deg);
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(-20px) scale(0.85) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+.rise-photo-bubble-1 { animation: risePhotoBubbleAnim 14s ease-in-out infinite; }
+.rise-photo-bubble-2 { animation: risePhotoBubbleAnim 17s ease-in-out infinite 3s; }
+.rise-photo-bubble-3 { animation: risePhotoBubbleAnim 15s ease-in-out infinite 6s; }
+.rise-photo-bubble-4 { animation: risePhotoBubbleAnim 18s ease-in-out infinite 9s; }
+.rise-photo-bubble-5 { animation: risePhotoBubbleAnim 16s ease-in-out infinite 1.5s; }
+.rise-photo-bubble-6 { animation: risePhotoBubbleAnim 19s ease-in-out infinite 7.5s; }
+
+/* 3D Photo Sheen & Tilt */
+.polaroid-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.polaroid-sheen::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+}
+
+/* 3D Tape Strip Sticker */
+.tape-strip {
+  background: rgba(255, 245, 220, 0.85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  border-left: 2px dashed rgba(200, 180, 140, 0.6);
+  border-right: 2px dashed rgba(200, 180, 140, 0.6);
+}
+
+/* Smooth Thank You Note Entrance Animation (No Background Distractions) */
+@keyframes thankYouNoteEntry {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.94);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.01);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-thankyou-reveal {
+  animation: thankYouNoteEntry 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Subtle breathing glow for thank you card */
+@keyframes thankYouGlow {
+  0%, 100% {
+    box-shadow: 0 15px 45px rgba(232, 58, 107, 0.18), 0 0 0 1.5px rgba(255, 182, 193, 0.7);
+  }
+  50% {
+    box-shadow: 0 20px 55px rgba(232, 58, 107, 0.28), 0 0 0 2px rgba(255, 112, 150, 0.85);
+  }
+}
+
+.thankyou-card-glow {
+  animation: thankYouGlow 3.5s ease-in-out infinite;
+}
+
