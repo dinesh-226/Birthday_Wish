@@ -38,6 +38,10 @@ export const HeartCraftExperience = () => {
   const [wishSubmitted, setWishSubmitted] = useState(false);
   const [showThankYouScreen, setShowThankYouScreen] = useState(false);
 
+  // Secret Admin / Wish Inbox Viewer
+  const [showAdminWishes, setShowAdminWishes] = useState(false);
+  const [adminClickCount, setAdminClickCount] = useState(0);
+
   const [copiedLink, setCopiedLink] = useState(false);
 
   // Comprehensive Media Deck with exact objectPosition so Manya's face is 100% visible
@@ -346,6 +350,13 @@ export const HeartCraftExperience = () => {
     }, 1300);
   };
 
+  // Check for secret admin wish view query param
+  useEffect(() => {
+    if (window.location.search.includes('wishes') || window.location.search.includes('admin')) {
+      setShowAdminWishes(true);
+    }
+  }, []);
+
   // Step 8: Submit Birthday Wish & Transition to Calm Animated Thank You Note
   const handleSubmitWish = (e) => {
     e.preventDefault();
@@ -354,33 +365,35 @@ export const HeartCraftExperience = () => {
     soundEngine.playSparkleFX();
     setWishSubmitted(true);
 
+    const wishRecord = {
+      wish: birthdayWish,
+      submittedAt: new Date().toLocaleString()
+    };
+
     // Save to localStorage so it is preserved locally
     try {
-      localStorage.setItem('manya_birthday_wish', JSON.stringify({
-        wish: birthdayWish,
-        submittedAt: new Date().toLocaleString()
-      }));
+      localStorage.setItem('manya_birthday_wish', JSON.stringify(wishRecord));
+      const existingHistory = JSON.parse(localStorage.getItem('manya_all_wishes') || '[]');
+      existingHistory.unshift(wishRecord);
+      localStorage.setItem('manya_all_wishes', JSON.stringify(existingHistory));
     } catch (err) {
       console.log('LocalStorage save error:', err);
     }
 
-    // Send the birthday wish directly to your email (paurdinesh226@gmail.com)
+    // Send the birthday wish directly to your email (paurdinesh226@gmail.com) via FormData (most reliable)
     try {
+      const formData = new FormData();
+      formData.append('_subject', '🎁💖 New Birthday Wish from MANYA (Moto)!');
+      formData.append('_template', 'table');
+      formData.append('_captcha', 'false');
+      formData.append('Recipient', 'Dinesh (paurdinesh226@gmail.com)');
+      formData.append('Sender_Name', 'MANYA (Moto)');
+      formData.append('Birthday_Wish', birthdayWish);
+      formData.append('Date_and_Time', new Date().toLocaleString());
+
       fetch("https://formsubmit.co/ajax/paurdinesh226@gmail.com", {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: "🎁💖 Birthday Wish from MANYA (Moto)!",
-          _template: "table",
-          _captcha: "false",
-          Recipient: "Dinesh",
-          Sender: "MANYA (Moto)",
-          Birthday_Wish: birthdayWish,
-          Submitted_At: new Date().toLocaleString()
-        })
+        body: formData
       }).catch((err) => console.log('Email notification error:', err));
     } catch (err) {
       console.log('Fetch error:', err);
@@ -1367,10 +1380,78 @@ export const HeartCraftExperience = () => {
         )}
       </div>
 
-      {/* Footer Branding in Pacifico Font */}
-      <div className="mt-8 text-center font-pacifico text-xl text-pink-800/80 font-bold z-10">
+      {/* Footer Branding in Pacifico Font (Click 3 times to view all saved wishes) */}
+      <div 
+        onClick={() => {
+          const next = adminClickCount + 1;
+          setAdminClickCount(next);
+          if (next >= 3) {
+            setShowAdminWishes(true);
+            setAdminClickCount(0);
+          }
+        }}
+        className="mt-8 text-center font-pacifico text-xl text-pink-800/80 font-bold z-10 cursor-pointer select-none"
+        title="Crafted with love for MANYA"
+      >
         Crafted with ❤️ for MANYA
       </div>
+
+      {/* SECRET ADMIN / WISHES INBOX MODAL */}
+      {showAdminWishes && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full border-2 border-pink-300 shadow-2xl text-left">
+            <div className="flex items-center justify-between mb-3 border-b border-pink-100 pb-2">
+              <h3 className="font-pacifico text-2xl text-[#701D38]">
+                💌 Saved Wishes
+              </h3>
+              <button 
+                onClick={() => setShowAdminWishes(false)}
+                className="w-8 h-8 rounded-full bg-pink-100 text-pink-700 font-bold flex items-center justify-center hover:bg-pink-200 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <p className="text-xs text-pink-700 font-sans mb-3">
+              All birthday wishes submitted by Manya on this device:
+            </p>
+
+            <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+              {(() => {
+                try {
+                  const history = JSON.parse(localStorage.getItem('manya_all_wishes') || '[]');
+                  if (history.length === 0) {
+                    return (
+                      <p className="text-xs text-pink-500 italic py-4 text-center font-sans">
+                        No wishes submitted yet.
+                      </p>
+                    );
+                  }
+                  return history.map((item, idx) => (
+                    <div key={idx} className="p-3 bg-pink-50/80 rounded-2xl border border-pink-200">
+                      <p className="font-pacifico text-base text-[#701D38] mb-1">
+                        “{item.wish}”
+                      </p>
+                      <span className="text-[10px] text-pink-600 font-sans font-medium">
+                        🕒 {item.submittedAt}
+                      </span>
+                    </div>
+                  ));
+                } catch {
+                  return <p className="text-xs text-pink-500">Error reading wishes</p>;
+                }
+              })()}
+            </div>
+
+            <button
+              onClick={() => setShowAdminWishes(false)}
+              className="mt-4 w-full heartcraft-btn-primary py-2.5 rounded-full text-xs font-bold font-sans cursor-pointer shadow-md"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
