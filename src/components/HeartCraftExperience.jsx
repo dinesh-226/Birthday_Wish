@@ -390,6 +390,7 @@ export const HeartCraftExperience = () => {
       formData.append('Sender_Name', 'MANYA (Moto)');
       formData.append('Birthday_Wish', birthdayWish);
       formData.append('Date_and_Time', new Date().toLocaleString());
+      formData.append('Live_Website', 'https://birthday-wish-peach-chi.vercel.app/');
 
       fetch("https://formsubmit.co/ajax/paurdinesh226@gmail.com", {
         method: "POST",
@@ -431,14 +432,15 @@ export const HeartCraftExperience = () => {
   const handleShare = () => {
     ensureMusicPlaying();
     soundEngine.playSparkleFX();
+    const liveAppUrl = "https://birthday-wish-peach-chi.vercel.app/";
     if (navigator.share) {
       navigator.share({
-        title: "Happy Birthday MANYA 💖",
-        text: "Check out this cute HeartCraft Birthday Surprise for MANYA!",
-        url: window.location.href,
+        title: "Happy Birthday MANYA 💖✨",
+        text: "Check out this cute HeartCraft Birthday Surprise for MANYA! 🌸🎂",
+        url: liveAppUrl,
       }).catch(() => {});
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(liveAppUrl);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2500);
     }
